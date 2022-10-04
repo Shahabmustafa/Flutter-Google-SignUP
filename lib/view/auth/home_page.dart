@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_fronted_practis/view/auth/auth.dart';
-import 'package:flutter_fronted_practis/view/auth/login_page.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_fronted_practis/view/diary_screen.dart';
+import 'package:flutter_fronted_practis/view/post_screen.dart';
+import 'package:flutter_fronted_practis/view/profile_screen.dart';
+import 'package:flutter_fronted_practis/view/search_screen.dart';
+import '../video_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,45 +12,59 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+
 class _HomePageState extends State<HomePage> {
+
+  List pages = [
+    PostScreen(),
+    VideoScreen(),
+    DiaryScreen(),
+    SearchScreen(),
+    ProfileScreen(),
+  ];
+
+  int currentIndex = 0;
+
+  void onTap(int index){
+    setState(() {
+      currentIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    // final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            CircleAvatar(
-              backgroundImage: NetworkImage('$photoURL'),
+      body: pages[currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: onTap,
+        currentIndex: currentIndex,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.grey,
+        showSelectedLabels: false,
+        // showUnselectedLabels: false,
+        items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+                label: 'Home',
+                icon: Icon(Icons.home),
             ),
-            SizedBox(
-              width: 10.0,
-            ),
-            Center(child: Text('$displayName')),
-          ],
-        ),
-        actions: [
-          Row(
-            children: [
-              ElevatedButton(onPressed: ()async{
-                await GoogleSignIn().signOut();
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
-              }, child: Icon(Icons.logout))
-            ],
+            BottomNavigationBarItem(
+              label: 'Video',
+              icon: Icon(Icons.tv),
+          ),
+            BottomNavigationBarItem(
+              label: 'Diary',
+              icon: Icon(Icons.post_add_sharp),
+          ),
+            BottomNavigationBarItem(
+              label: 'Profile',
+              icon: Icon(Icons.search),
+          ),
+          BottomNavigationBarItem(
+            label: 'Profile',
+            icon: Icon(Icons.person),
           ),
         ],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-           Column(
-             mainAxisAlignment: MainAxisAlignment.center,
-             children: [
-
-             ],
-           ),
-          ],
-        ),
       ),
     );
   }

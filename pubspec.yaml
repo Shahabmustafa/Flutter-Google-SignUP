@@ -37,6 +37,7 @@ dependencies:
   flutter_social_button: ^1.1.4
   firebase_core: ^1.24.0
   firebase_auth: ^3.11.0
+  firebase_database: ^9.1.6
   google_sign_in: ^4.5.1
 
 dev_dependencies:
